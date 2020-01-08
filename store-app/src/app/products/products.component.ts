@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../models/product';
 
+
+const FORM_BUTTON_TEXT_SAVE = "Save";
+const FORM_BUTTON_TEXT_ADD = "Add";
+
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -11,8 +15,11 @@ import { Product } from '../models/product';
   // h4{color:blue}`]
 })
 export class ProductsComponent implements OnInit {
+
   currentId: number = 4;
-  
+  showMessage = false;
+  formButtonText = FORM_BUTTON_TEXT_ADD;
+
   newProduct: Product = {
     id: this.currentId,
     name: "",
@@ -45,11 +52,11 @@ export class ProductsComponent implements OnInit {
     }
   ]
 
-  showMessage = false;
 
   constructor() { }
 
   ngOnInit() {
+    this.formButtonText = FORM_BUTTON_TEXT_ADD;
   }
 
   hideMessage = () => {
@@ -57,26 +64,42 @@ export class ProductsComponent implements OnInit {
     console.log(this);
   }
 
-  addProduct() {
-    this.products.unshift(this.newProduct);
-    this.currentId += 1;
-    this.newProduct = {
-      id: this.currentId,
-      name: "",
-      price: 0,
-      description: "",
-      isAvailable: false
+  submitProduct() {
+    if (this.formButtonText === FORM_BUTTON_TEXT_ADD){
+      this.products.unshift(this.newProduct);
+      this.currentId += 1;
+      this.newProduct = {
+        id: this.currentId,
+        name: "",
+        price: 0,
+        description: "",
+        isAvailable: false
+      }
+      this.showMessage = true;
+      // var self = this;
+      // setTimeout(function(){
+      //   self.showMessage = false;
+      //   console.log(this.showMessage);
+      // }, 2000);
+      setTimeout(this.hideMessage, 2000);
+      // setTimeout(() => {
+      //   this.showMessage = false;
+      // }, 2000);
     }
-    this.showMessage = true;
-    // var self = this;
-    // setTimeout(function(){
-    //   self.showMessage = false;
-    //   console.log(this.showMessage);
-    // }, 2000);
-    setTimeout(this.hideMessage, 2000);
-    // setTimeout(() => {
-    //   this.showMessage = false;
-    // }, 2000);
+    else if (this.formButtonText === FORM_BUTTON_TEXT_SAVE)
+    {
+      this.products = this.products.map(p => p.id == this.newProduct.id ? this.newProduct : p);
+      this.newProduct = {
+        id: this.currentId,
+        name: "",
+        price: 0,
+        description: "",
+        isAvailable: false
+      }
+      this.showMessage = true;
+      this.formButtonText = FORM_BUTTON_TEXT_ADD;
+      setTimeout(this.hideMessage, 2000);
+    }
   }
 
   showAvailibility(){
@@ -96,5 +119,20 @@ export class ProductsComponent implements OnInit {
         backgroundColor: 'yellow'
       }
     }
+  }
+
+  onDelete(toDelete){
+    this.products = this.products.filter(p => p != toDelete);
+  }
+
+  onEdit(toEdit){
+    this.newProduct = {
+      id: toEdit.id,
+      name: toEdit.name,
+      price: toEdit.price,
+      description: toEdit.description,
+      isAvailable: toEdit.isAvailable
+    }
+    this.formButtonText = FORM_BUTTON_TEXT_SAVE;
   }
 }
