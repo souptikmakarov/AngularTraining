@@ -61,7 +61,6 @@ export class ProductsComponent implements OnInit {
 
   hideMessage = () => {
     this.showMessage = false;
-    console.log(this);
   }
 
   submitProduct() {
@@ -99,25 +98,6 @@ export class ProductsComponent implements OnInit {
       this.showMessage = true;
       this.formButtonText = FORM_BUTTON_TEXT_ADD;
       setTimeout(this.hideMessage, 2000);
-    }
-  }
-
-  showAvailibility(){
-    console.log(this.newProduct.isAvailable);
-  }
-
-  getStyle(p){
-    if (p.isAvailable){
-      return {
-        color: 'blue',
-        backgroundColor: 'lightBlue'
-      }
-    }
-    else{
-      return {
-        color: 'red',
-        backgroundColor: 'yellow'
-      }
     }
   }
 

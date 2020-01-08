@@ -1,3 +1,9 @@
-<h1>Welcome to Abbajaan.com</h1>
-<p>This site is better than the south american forest that you use currently</p>
-<p>Todays date: {{ today | date : 'medium' | uppercase}}</p>
+<div class="row header">
+    <div class="col-md-3">
+        <h1>Abbajaan.com</h1>
+    </div>
+    <div class="col-md-6"></div>
+    <div class="col-md-3" style="line-height: 50px;">
+        <p>{{ today | date : 'fullDate'}}</p>
+    </div>
+</div>

@@ -1,7 +1,12 @@
 h1{
     text-align: center;
+    color: #444444;
 }
 p{
-    color: crimson;
-    font-size: 22pt;
+    color: #f9f9f9;
+    font-size: 18pt;
+    margin: auto;
+}
+.header{
+    background: linear-gradient(46deg, #006bbd 15%, #0076ce);
 }

@@ -1,0 +1,42 @@
+<div class="card bg-light">
+    <div class="card-body">
+        <form>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input class="form-control" 
+                type="text" 
+                [(ngModel)]="newProduct.name"
+                name="name"
+                placeholder="Enter name" 
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea class="form-control" 
+                rows="3" 
+                placeholder="Enter description"
+                [(ngModel)]="newProduct.description"
+                name="description"
+                ></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input class="form-control" 
+                type="text" 
+                [(ngModel)]="newProduct.price"
+                name="price"
+                placeholder="Enter price" 
+                />
+            </div>
+
+            <div class="form-group form-check">
+                <input type="checkbox" [(ngModel)]="newProduct.isAvailable" name="isAvailable" class="form-check-input"/>
+                <label for="isAvailable" class="form-check-label">Available?</label>
+            </div>
+
+            <button type="button" class="btn btn-primary" (click)="submitProduct()">{{ formButtonText }}</button>
+        </form>
+    </div>
+</div>
