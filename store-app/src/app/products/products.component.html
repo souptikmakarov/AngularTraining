@@ -1,0 +1,67 @@
+<div class="row">
+    <div class="col-md-4">
+        <h2>Product Form</h2>
+        <div class="card bg-light">
+          <div class="card-body">
+            <form>
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input class="form-control" 
+                  type="text" 
+                  [(ngModel)]="newProduct.name"
+                  name="name"
+                  placeholder="Enter name" 
+                />
+              </div>
+        
+              <div class="form-group">
+                <label for="description">Description</label>
+                <textarea class="form-control" 
+                  rows="3" 
+                  placeholder="Enter description"
+                  [(ngModel)]="newProduct.description"
+                  name="description"
+                ></textarea>
+              </div>
+        
+              <div class="form-group">
+                <label for="price">Price</label>
+                <input class="form-control" 
+                  type="text" 
+                  [(ngModel)]="newProduct.price"
+                  name="price"
+                  placeholder="Enter price" 
+                />
+              </div>
+        
+              <div class="form-group form-check">
+                <input type="checkbox" [(ngModel)]="newProduct.isAvailable" name="isAvailable" class="form-check-input" (change)="showAvailibility()" value="yes"/>
+                <label for="isAvailable" class="form-check-label">Available?</label>
+              </div>
+        
+              <button type="button" class="btn btn-primary" (click)="addProduct()">Submit</button>
+            </form>
+          </div>
+        </div>
+        <p class="alert alert-primary mt-3 ml-1 mr-1" *ngIf="showMessage">Saved Successfully</p>
+        <button (click)="hideMessage()">Hide Msg</button>
+    </div>
+    <div class="col-md-8">
+        <div class="card bg-light m-3" *ngFor="let product of products">
+            <h4 class="card-header">{{ product.name | uppercase }}</h4>
+            <div class="card-body">
+              <!-- <p class="card-text" [ngStyle]="{ color: product.isAvailable ? 'blue' : 'red' }">{{ product.description }}</p> -->
+              <p class="card-text" [ngStyle]="getStyle(product)">{{ product.description }}</p>
+              <p class="card-text"><strong>Price: </strong> <em>{{ product.price | currency : 'INR'}}</em></p>
+              <!-- <p class="card-text"><strong>Available? </strong> <em *ngIf="product.isAvailable">Yes</em> <em *ngIf="!product.isAvailable">No</em></p> -->
+              <p class="card-text"><strong>Available? </strong> <em class="badge" [ngClass]="product.isAvailable ? 'badge-success' : 'badge-danger'"> {{ product.isAvailable ? 'Yes' : 'No' }}</em></p>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn btn-warning btn-sm">
+                Delete
+              </button>
+            </div>
+        </div>
+    </div>
+</div>
+
