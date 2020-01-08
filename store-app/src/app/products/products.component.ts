@@ -19,6 +19,7 @@ export class ProductsComponent implements OnInit {
   currentId: number = 4;
   showMessage = false;
   formButtonText = FORM_BUTTON_TEXT_ADD;
+  searchText = '';
 
   newProduct: Product = {
     id: this.currentId,
