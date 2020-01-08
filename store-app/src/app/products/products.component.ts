@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../models/product';
+import { LoggerService } from '../services/logger.service';
 
 
 const FORM_BUTTON_TEXT_SAVE = "Save";
@@ -9,6 +10,7 @@ const FORM_BUTTON_TEXT_ADD = "Add";
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css'],
+  providers: [LoggerService]
   // template: `<h4>Inline Template</h4>
   // <p>Inline paragraph</p>`,
   // styles: [`p{color:crimson}
@@ -53,8 +55,7 @@ export class ProductsComponent implements OnInit {
     }
   ]
 
-
-  constructor() { }
+  constructor(private logger: LoggerService) {}
 
   ngOnInit() {
     this.formButtonText = FORM_BUTTON_TEXT_ADD;
@@ -64,7 +65,7 @@ export class ProductsComponent implements OnInit {
     this.showMessage = false;
   }
 
-  submitProduct() {
+  submitProduct(np) {
     if (this.formButtonText === FORM_BUTTON_TEXT_ADD){
       this.products.unshift(this.newProduct);
       this.currentId += 1;
@@ -104,6 +105,7 @@ export class ProductsComponent implements OnInit {
 
   onDelete(toDelete){
     this.products = this.products.filter(p => p != toDelete);
+    this.logger.log("Element deleted");
   }
 
   onEdit(toEdit){

@@ -24,13 +24,13 @@ export class ProductDetailComponent implements OnInit {
     if (p.isAvailable){
       return {
         color: 'blue',
-        backgroundColor: 'lightBlue'
+        // backgroundColor: 'lightBlue'
       }
     }
     else{
       return {
         color: 'red',
-        backgroundColor: 'yellow'
+        // backgroundColor: 'yellow'
       }
     }
   }
