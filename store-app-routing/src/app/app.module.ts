@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Routes, RouterModule } from "@angular/router";
 
 import { AppComponent } from './app.component';
 
@@ -26,6 +27,25 @@ import { LoggingService } from './services/logging.service';
 import { ProductsService } from './services/products.service';
 import { CustomersService } from './services/customers.service';
 
+const appRoutes: Routes = [
+  {
+    path: '',
+    component: HomeComponent
+  },
+  {
+    path: 'products',
+    component: ProductsComponent
+  },
+  {
+    path: 'products/:id',
+    component: ProductDetailComponent
+  },
+  {
+    path: 'customers',
+    component: CustomersComponent
+  }
+];
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +66,8 @@ import { CustomersService } from './services/customers.service';
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [LoggingService, ProductsService, CustomersService],
   bootstrap: [AppComponent]
