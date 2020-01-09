@@ -1,4 +1,7 @@
-<app-header></app-header>
+<app-header [text]="headerText"></app-header>
 <div class="container">
-  <app-products></app-products>
+  <!-- <input type="text" class="form-control" [(ngModel)]="headerText"> -->
+  <app-products>
+    <p>Component content demo</p>
+  </app-products>
 </div>

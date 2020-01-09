@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Product } from "../models/product";
 import { ProductsService } from '../services/products.service';
 
@@ -7,7 +7,7 @@ import { ProductsService } from '../services/products.service';
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.css']
 })
-export class ProductDetailComponent implements OnInit {
+export class ProductDetailComponent implements OnInit, OnDestroy {
   @Input() product: Product = new Product();
 
   @Output() onProductEdit: EventEmitter<any> = new EventEmitter();
@@ -19,6 +19,11 @@ export class ProductDetailComponent implements OnInit {
   constructor(private productsService: ProductsService) { }
 
   ngOnInit() {
+    
+  }
+
+  ngOnDestroy(){
+
   }
 
   getStyle(p){
