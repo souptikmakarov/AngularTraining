@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Product } from '../models/product';
 import { LoggerService } from '../services/logger.service';
 import { ProductsService } from '../services/products.service';
+import { Subscription } from 'rxjs';
 
 
 const FORM_BUTTON_TEXT_SAVE = "Save";
@@ -16,12 +17,13 @@ const FORM_BUTTON_TEXT_ADD = "Add";
   // styles: [`p{color:crimson}
   // h4{color:blue}`]
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent implements OnInit, OnDestroy {
 
   currentId: number = 4;
   showMessage = false;
   formButtonText = FORM_BUTTON_TEXT_ADD;
   searchText = '';
+  subscription: Subscription;
 
   newProduct: Product = {
     id: this.currentId,
@@ -38,6 +40,17 @@ export class ProductsComponent implements OnInit {
   ngOnInit() {
     this.formButtonText = FORM_BUTTON_TEXT_ADD;
     this.products = this.productsService.getProducts();
+    this.subscription = this.productsService.productDeleted.subscribe(() => {
+      console.log("ProductComponent.ngOnInit productDeleted event received");
+      this.products = this.productsService.getProducts();
+    });
+  }
+
+  ngOnDestroy(){
+    if (this.subscription){
+      this.subscription.unsubscribe();
+      console.log("Product-component onDestroy unsubscription complete");
+    }
   }
 
   hideMessage = () => {

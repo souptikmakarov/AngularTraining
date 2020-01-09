@@ -15,8 +15,7 @@
 
       <app-product-detail 
         [product]="p" 
-        (onProductEdit)="onEdit($event)" 
-        (onProductDelete)="onDelete($event)" 
+        (onProductEdit)="onEdit($event)"
         *ngFor="let p of products | searchProducts : searchText">
       </app-product-detail>
     </div>

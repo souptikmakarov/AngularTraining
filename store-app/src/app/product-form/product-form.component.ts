@@ -21,7 +21,7 @@ export class ProductFormComponent implements OnInit {
   }
 
   submitProduct(){
-    this.logger.log('product-form.submitProduct: Product data submitted');
+    // this.logger.log('product-form.submitProduct: Product data submitted');
     this.onSubmit.emit(this.newProduct);
   }
 }

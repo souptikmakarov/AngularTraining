@@ -12,19 +12,13 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
 
   @Output() onProductEdit: EventEmitter<any> = new EventEmitter();
 
-  @Output() onProductDelete: EventEmitter<any> = new EventEmitter();
-
-
+  // @Output() onProductDelete: EventEmitter<any> = new EventEmitter();
 
   constructor(private productsService: ProductsService) { }
 
-  ngOnInit() {
-    
-  }
+  ngOnInit() {}
 
-  ngOnDestroy(){
-
-  }
+  ngOnDestroy(){}
 
   getStyle(p){
     if (p.isAvailable){
