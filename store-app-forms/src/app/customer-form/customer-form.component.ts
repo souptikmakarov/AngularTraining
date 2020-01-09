@@ -20,8 +20,21 @@ export class CustomerFormComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
+
+    // this.form = new FormGroup({
+    //   name: new FormControl('', [
+    //     Validators.required, 
+    //     Validators.minLength(3),
+    //     AppValidators.cannotContainSpace
+    //   ],
+    //     AppValidators.shouldBeUnique
+    //   ),
+    //   phone: new FormControl('', Validators.required),
+    //   email: new FormControl('', Validators.required),
+    //   city: new FormControl('', Validators.required)
+    // });
     // this.createForm();
-    // this.createFormWithFormBuilder();
+    this.createFormWithFormBuilder();
   }
 
   // Create form using FormGroup & FormControl
@@ -84,10 +97,11 @@ export class CustomerFormComponent implements OnInit {
     // Forcing the form into error state
     // let savedSuccessfully = this.customersService.saveCustomer(this.form.value);
     // if(!savedSuccessfully) {
-    this.form.setErrors({
-      invalidCustomer: true
-    });
+    // this.form.setErrors({
+    //   invalidCustomer: true
+    // });
     // }
-    console.log(this.form);
+    console.log(this.form.controls);
+    this.form.reset();
   }
 }

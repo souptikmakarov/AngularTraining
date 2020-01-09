@@ -3,8 +3,9 @@ import { AbstractControl, ValidationErrors } from "@angular/forms";
 export class AppValidators {
     // Custom validator
     static cannotContainSpace(control: AbstractControl): ValidationErrors | null {
-        console.log(control.value);
-        if((control.value as string).indexOf(' ') >= 0) {
+        // console.log(control.value);
+        let val = control.value as string;
+        if(val != null && val.indexOf(' ') >= 0) {
             return {
                 cannotContainSpace: true
             };

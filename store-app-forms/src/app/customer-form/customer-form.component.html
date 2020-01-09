@@ -3,26 +3,47 @@
 
 <div class="card bg-light">
   <div class="card-body">
-    <form>
+    <form (ngSubmit)="onSave()" [formGroup]="form">
       <div class="form-group">
         <label for="customerName">Name</label>
-        <input type="text" class="form-control" id="customerName" name="customerName">
+        <input type="text" class="form-control" id="customerName" formControlName="name">
+        <div *ngIf="name.pending">Checking name, please wait</div>
+        <div class="alert alert-danger" *ngIf="name.invalid && name.touched">
+          <div *ngIf="name.errors.required">
+            Name is required
+          </div>
+          <div *ngIf="name.errors.minlength">
+            Name should contain at least {{ name.errors.minlength.requiredLength }} characters
+          </div>
+          <div *ngIf="name.errors.cannotContainSpace">
+            Name should not contain space
+          </div>
+          <div *ngIf="name.errors.shouldBeUnique">
+            Name "Naveen" already exists
+          </div>
+        </div>
       </div>
-      <div>
+      <div formGroupName="contact">
         <div class="form-group">
           <label for="customerPhone">Phone</label>
-          <input type="text" class="form-control" id="customerPhone" name="customerPhone">
+          <input type="text" class="form-control" id="customerPhone" formControlName="phone">
         </div>
         <div class="form-group">
           <label for="customerEmail">Email</label>
-          <input type="text" class="form-control" id="customerEmail" name="customerEmail">
+          <input type="text" class="form-control" id="customerEmail" formControlName="email">
+          <div *ngIf="email.invalid && email.touched">
+            <div *ngIf="email.errors.email">
+              Please enter a valid email
+            </div>
+          </div>
+          
         </div>
       </div>
       <div class="form-group">
         <label for="customerCity">City</label>
-        <input type="text" class="form-control" id="customerCity" name="customerCity">
+        <input type="text" class="form-control" id="customerCity" formControlName="city">
       </div>
-      <button name="save" type="submit" class="btn btn-success">
+      <button name="save" type="submit" class="btn btn-success" [disabled]="form.invalid">
         Save
       </button>
     </form>
