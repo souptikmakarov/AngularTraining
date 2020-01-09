@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../models/product';
 import { LoggerService } from '../services/logger.service';
+import { ProductsService } from '../services/products.service';
 
 
 const FORM_BUTTON_TEXT_SAVE = "Save";
@@ -9,8 +10,7 @@ const FORM_BUTTON_TEXT_ADD = "Add";
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css'],
-  providers: [LoggerService]
+  styleUrls: ['./products.component.css']
   // template: `<h4>Inline Template</h4>
   // <p>Inline paragraph</p>`,
   // styles: [`p{color:crimson}
@@ -31,43 +31,24 @@ export class ProductsComponent implements OnInit {
     isAvailable: false
   };
 
-  products: Product[] = [
-    {
-      id: 1,
-      name: "Dell Precision",
-      price: 85000,
-      description: "The best enterprise laptop with sleek aluminium finish",
-      isAvailable: true
-    },
-    {
-      id: 2,
-      name: "Dell Latitude",
-      price: 45000,
-      description: "The best mid-range laptop with hardened plastic body",
-      isAvailable: false
-    },
-    {
-      id: 3,
-      name: "Dell G7",
-      price: 150000,
-      description: "The best entry level gaming laptop",
-      isAvailable: true
-    }
-  ]
+  products: Product[] = [];
 
-  constructor(private logger: LoggerService) {}
+  constructor(private logger: LoggerService, private productsService: ProductsService) {}
 
   ngOnInit() {
     this.formButtonText = FORM_BUTTON_TEXT_ADD;
+    this.products = this.productsService.getProducts();
   }
 
   hideMessage = () => {
     this.showMessage = false;
   }
 
-  submitProduct(np) {
+  submitProduct() {
     if (this.formButtonText === FORM_BUTTON_TEXT_ADD){
-      this.products.unshift(this.newProduct);
+      console.log(this.newProduct);
+      this.productsService.addProduct(this.newProduct);
+      // this.products = this.productsService.getProducts();
       this.currentId += 1;
       this.newProduct = {
         id: this.currentId,
@@ -89,7 +70,10 @@ export class ProductsComponent implements OnInit {
     }
     else if (this.formButtonText === FORM_BUTTON_TEXT_SAVE)
     {
-      this.products = this.products.map(p => p.id == this.newProduct.id ? this.newProduct : p);
+      console.log(this.newProduct);
+      // this.products = this.products.map(p => p.id == this.newProduct.id ? this.newProduct : p);
+      this.productsService.editProduct(this.newProduct);
+      // this.products = this.productsService.getProducts();
       this.newProduct = {
         id: this.currentId,
         name: "",
@@ -104,7 +88,9 @@ export class ProductsComponent implements OnInit {
   }
 
   onDelete(toDelete){
-    this.products = this.products.filter(p => p != toDelete);
+    // this.products = this.products.filter(p => p != toDelete);
+    this.productsService.deleteProduct(toDelete);
+    // this.products = this.productsService.getProducts();
     this.logger.log("Element deleted");
   }
 

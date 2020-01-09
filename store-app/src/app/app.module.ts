@@ -9,6 +9,8 @@ import { ProductsComponent } from './products/products.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ProductFormComponent } from './product-form/product-form.component';
 import { SearchProductsPipe } from './common/search-products.pipe';
+import { LoggerService } from './services/logger.service';
+import { ProductsService } from './services/products.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,7 @@ import { SearchProductsPipe } from './common/search-products.pipe';
     FormsModule,
     CommonModule
   ],
-  providers: [],
+  providers: [LoggerService, ProductsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

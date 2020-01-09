@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Product } from "../models/product";
+import { ProductsService } from '../services/products.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -15,7 +16,7 @@ export class ProductDetailComponent implements OnInit {
 
 
 
-  constructor() { }
+  constructor(private productsService: ProductsService) { }
 
   ngOnInit() {
   }
@@ -36,8 +37,9 @@ export class ProductDetailComponent implements OnInit {
   }
 
   onDelete(toDelete){
-    this.onProductDelete.emit(toDelete);
+    // this.onProductDelete.emit(toDelete);
     // this.products = this.products.filter(p => p != toDelete);
+    this.productsService.deleteProduct(toDelete);
   }
 
   onEdit(toEdit){
