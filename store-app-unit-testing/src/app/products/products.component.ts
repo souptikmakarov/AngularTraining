@@ -11,12 +11,18 @@ import { ProductsService } from '../services/products.service';
 export class ProductsComponent implements OnInit {
   products: Product[] = [];
 
-  constructor(private service: ProductsService) {}
+  constructor(private service: ProductsService) { }
 
   ngOnInit() {
+    console.log('ngOnInit() called')
     this.service.getProducts().subscribe(
-      (data) => { this.products = data },
-      (error) => { console.log(error); }
+      (products: Product[]) => {
+        this.products = products;
+      },
+      (error) => {
+        console.log('Get products failed.');
+        console.log('Error:', error.message);
+      }
     );
   }
 

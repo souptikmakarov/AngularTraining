@@ -26,15 +26,19 @@ export class ProductFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      if (params['id'] !== 'new') {
-        this.id = +params.id;
-        const p = this.service.getProduct(this.id);
-
-        if (p) {
-          Object.assign(this.product, p);
-          this.addNew = false;
-        }
+    this.route.paramMap.subscribe(map => {
+      if (map.get('id')) {
+        this.id = +map.get('id');
+        this.service.getProduct(this.id).subscribe(
+          (product: Product) => {
+            this.product = product;
+            this.addNew = false;
+          },
+          (error) => {
+            console.log('Get product failed.');
+            console.log('Error:', error);
+          }
+        );
       }
     });
   }
@@ -49,14 +53,18 @@ export class ProductFormComponent implements OnInit {
 
     if (this.addNew) {
       this.service.addProduct(this.product).subscribe(
-        (data) => { 
-          console.log("Added product: ", data);
+        (product) => {
+          console.log('product:', product);
           this.router.navigate(['/products']);
         },
-        (error) => { console.log("Create product failed: ", error); }
+        (error) => {
+          console.log('Add product failed.');
+          console.log('Error:', error);
+        }
       );
     } else {
       this.service.updateProduct(this.id, this.product);
     }
+
   }
 }

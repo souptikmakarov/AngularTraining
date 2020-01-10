@@ -1,78 +1,62 @@
 import { Injectable } from '@angular/core';
-
+import { HttpClient } from "@angular/common/http";
 import { Product } from '../models/product';
 
 @Injectable()
 export class ProductsService {
   private products: Product[];
+  private apiUrl = "http://localhost:3000/products";
 
-  constructor() {
-    this.products = [
-      {
-        id: 1,
-        name: 'Data Structures and Algorithms',
-        description:
-          'An ideal book for first course on data structures and algorithms, its text ensures a style and content relevant to present-day programming.',
-        isAvailable: true,
-        price: 285
-      },
-      {
-        id: 2,
-        name: 'Premsons 608 Four Bearing Fidget Spinner',
-        description: 'Perfect toy for fidgeters.',
-        isAvailable: false,
-        price: 160
-      },
-      {
-        id: 3,
-        name: 'Bahubali',
-        description:
-          "Raised in a remote tribal village, Shivudu grows up a carefree young man who relentlessly pursues his heart's desire.",
-        isAvailable: true,
-        price: 268
-      }
-    ];
+  constructor(private http: HttpClient) {
+    this.products = [];
+      // {
+      //   id: 1,
+      //   name: 'Data Structures and Algorithms',
+      //   description:
+      //     'An ideal book for first course on data structures and algorithms, its text ensures a style and content relevant to present-day programming.',
+      //   isAvailable: true,
+      //   price: 285
+      // },
+      // {
+      //   id: 2,
+      //   name: 'Premsons 608 Four Bearing Fidget Spinner',
+      //   description: 'Perfect toy for fidgeters.',
+      //   isAvailable: false,
+      //   price: 160
+      // },
+      // {
+      //   id: 3,
+      //   name: 'Bahubali',
+      //   description:
+      //     "Raised in a remote tribal village, Shivudu grows up a carefree young man who relentlessly pursues his heart's desire.",
+      //   isAvailable: true,
+      //   price: 268
+      // }
   }
 
   getProducts() {
-    return this.products;
+    return this.http.get<Product[]>(this.apiUrl);
+    // return this.products;
   }
 
   getProduct(id: number) {
-    const product = this.products.find(product => product.id === id);
-
-    return product;
+    // return this.http.get<Product[]>(this.apiUrl + "/" + id);
+    return this.http.get<Product>(`${this.apiUrl}/${id}`);
   }
 
   addProduct(product: Product) {
-    let newProduct = new Product();
-    newProduct.id = this.generateId();
-    newProduct.name = product.name;
-    newProduct.description = product.description;
-    newProduct.isAvailable = product.isAvailable;
-    newProduct.price = product.price;
-
-    this.products.push(newProduct);
-  }
-
-  private generateId(): number {
-    let id = 1;
-    let lastItemIndex = this.products.length - 1;
-    if (lastItemIndex > -1) {
-      id = this.products[lastItemIndex].id + 1;
-    }
-    return id;
+    return this.http.post<Product>(this.apiUrl, product);
   }
 
   updateProduct(id: number, productInfo: Product) {
-    const product = this.getProduct(id);
+    // const product = this.getProduct(id);
 
-    if (product) {
-      product.name = productInfo.name;
-      product.description = productInfo.description;
-      product.isAvailable = productInfo.isAvailable;
-      product.price = productInfo.price;
-    }
+    // if (product) {
+    //   product.name = productInfo.name;
+    //   product.description = productInfo.description;
+    //   product.isAvailable = productInfo.isAvailable;
+    //   product.price = productInfo.price;
+    // }
   }
 
   deleteProduct(id: number) {

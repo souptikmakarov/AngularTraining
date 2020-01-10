@@ -17,22 +17,34 @@ export class ProductDetailComponent implements OnInit {
     private service: ProductsService,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(map => {
       this.id = +map.get('id');
       this.service.getProduct(this.id).subscribe(
-        (data) => { this.product = data },
-        (error) => { console.log("Could not load product: ", error); }
+        (product: Product) => {
+          this.product = product;
+        },
+        (error) => {
+          console.log('Get product failed.');
+          console.log('Error:', error);
+        }
       );
     });
   }
 
   onDelete() {
     if (confirm('Are you sure?')) {
-      this.service.deleteProduct(this.id);
-      this.router.navigate(['/products']);
+      this.service.deleteProduct(this.id).subscribe(
+        () => {
+          this.router.navigate(['/products']);
+        },
+        (error) => {
+          console.log('Delete product failed.');
+          console.log('Error:', error);
+        }
+      );
     }
   }
 }
