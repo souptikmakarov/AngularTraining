@@ -37,11 +37,11 @@ const appRoutes: Routes = [
     component: ProductsComponent
   },
   {
-    path: ':id',
+    path: 'products/:id',
     component: ProductDetailComponent
   },
   {
-    path: ':id/edit',
+    path: 'products/:id/edit',
     component: ProductFormComponent
   },
   {
