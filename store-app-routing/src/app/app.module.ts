@@ -49,6 +49,14 @@ const appRoutes: Routes = [
   {
     path: 'customers',
     component: CustomersComponent
+  },
+  // {
+  //   path: '**',
+  //   component: NotFoundComponent
+  // }
+  {
+    path: '**',
+    redirectTo: ''
   }
 ];
 
