@@ -37,8 +37,12 @@ const appRoutes: Routes = [
     component: ProductsComponent
   },
   {
-    path: 'products/:id',
+    path: ':id',
     component: ProductDetailComponent
+  },
+  {
+    path: ':id/edit',
+    component: ProductFormComponent
   },
   {
     path: 'customers',

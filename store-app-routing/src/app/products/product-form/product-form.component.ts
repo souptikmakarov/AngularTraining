@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from "@angular/router";
 
 import { Product } from '../../models/product';
 import { ProductsService } from '../../services/products.service';
@@ -15,11 +16,15 @@ export class ProductFormComponent implements OnInit {
 
   constructor(
     private productsService: ProductsService,
-    private loggingService: LoggingService
+    private loggingService: LoggingService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.product = this.productsService.getProduct(this.id);
+    this.route.paramMap.subscribe(map => {
+      this.id = +map.get('id')
+      this.product = this.productsService.getProduct(this.id);
+    });
   }
 
   onSave() {
