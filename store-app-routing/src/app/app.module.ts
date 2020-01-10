@@ -34,15 +34,17 @@ const appRoutes: Routes = [
   },
   {
     path: 'products',
-    component: ProductsComponent
-  },
-  {
-    path: 'products/:id',
-    component: ProductDetailComponent
-  },
-  {
-    path: 'products/:id/edit',
-    component: ProductFormComponent
+    component: ProductsComponent,
+    children: [
+      {
+        path: ':id',
+        component: ProductDetailComponent
+      },
+      {
+        path: ':id/edit',
+        component: ProductFormComponent
+      }
+    ]
   },
   {
     path: 'customers',
