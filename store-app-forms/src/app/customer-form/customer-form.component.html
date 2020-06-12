@@ -2,53 +2,73 @@
 <h4 class="customersColor">Reactive Form</h4>
 
 <div class="card bg-light">
-  <div class="card-body">
-    <form (ngSubmit)="onSave()" [formGroup]="form">
-      <div class="form-group">
-        <label for="customerName">Name</label>
-        <input type="text" class="form-control" id="customerName" formControlName="name">
-        <div *ngIf="name.pending">Checking name, please wait</div>
-        <div class="alert alert-danger" *ngIf="name.invalid && name.touched">
-          <div *ngIf="name.errors.required">
-            Name is required
-          </div>
-          <div *ngIf="name.errors.minlength">
-            Name should contain at least {{ name.errors.minlength.requiredLength }} characters
-          </div>
-          <div *ngIf="name.errors.cannotContainSpace">
-            Name should not contain space
-          </div>
-          <div *ngIf="name.errors.shouldBeUnique">
-            Name "Naveen" already exists
-          </div>
-        </div>
-      </div>
-      <div formGroupName="contact">
-        <div class="form-group">
-          <label for="customerPhone">Phone</label>
-          <input type="text" class="form-control" id="customerPhone" formControlName="phone">
-        </div>
-        <div class="form-group">
-          <label for="customerEmail">Email</label>
-          <input type="text" class="form-control" id="customerEmail" formControlName="email">
-          <div *ngIf="email.invalid && email.touched">
-            <div *ngIf="email.errors.email">
-              Please enter a valid email
-            </div>
-          </div>
-          
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="customerCity">City</label>
-        <input type="text" class="form-control" id="customerCity" formControlName="city">
-      </div>
-      <button name="save" type="submit" class="btn btn-success" [disabled]="form.invalid">
-        Save
-      </button>
-    </form>
-  </div>
+	<div class="card-body">
+		<form (ngSubmit)="onSave()" [formGroup]="form">
+			<div class="form-group">
+				<label for="customerName">Name</label>
+				<input type="text" class="form-control" id="customerName" formControlName="name">
+				<div *ngIf="name.pending">Checking name, please wait</div>
+				<div class="alert alert-danger" *ngIf="name.invalid && name.touched">
+					<div *ngIf="name.errors.required">
+						Name is required
+					</div>
+					<div *ngIf="name.errors.minlength">
+						Name should contain at least {{ name.errors.minlength.requiredLength }} characters
+					</div>
+					<div *ngIf="name.errors.cannotContainSpace">
+						Name should not contain space
+					</div>
+					<div *ngIf="name.errors.shouldBeUnique">
+						Name "Naveen" already exists
+					</div>
+				</div>
+			</div>
+			<div formGroupName="contact">
+				<div class="form-group">
+					<label for="customerPhone">Phone</label>
+					<input type="text" class="form-control" id="customerPhone" formControlName="phone">
+				</div>
+				<div class="form-group">
+					<label for="customerEmail">Email</label>
+					<input type="text" class="form-control" id="customerEmail" formControlName="email">
+					<div *ngIf="email.invalid && email.touched">
+						<div *ngIf="email.errors.email">
+							Please enter a valid email
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="form-group">
+				<!-- <label for="customerBirthday">Birthday</label> -->
+				<!-- <input type="text" class="form-control" id="customerBirthday" formControlName="birthday"> -->
+				<label for="customerBirthday">Birthday</label>
+				<div class="input-group">
+					<input id="date-input" type="text" class="form-control" aria-label="Date" required dlDateTimeInput
+						[dlDateTimeInputFilter]="dateInputFilter" formControlName="birthday">
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary dropdown-toggle date-dropdown" type="button"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<i class="fas fa-calendar"></i>
+						</button>
+						<div class="dropdown-menu" (click)="keepDropDownOpen($event)">
+							<div style="width:360px;">
+								<dl-date-time-picker (change)="dateSelected($event, 'birthday')"
+									[selectFilter]="datePickerFilter" [minuteStep]="15" [maxView]="year" [minView]="min" [startView]="year" [leftIconClass]="['fa', 'fa-chevron-left']" [rightIconClass]="['fa', 'fa-chevron-right']"></dl-date-time-picker>
+							</div>
+						</div>
+					</div>
+					<div class="invalid-feedback">
+						Please enter or choose a date and time after the current time.
+					</div>
+				</div>
+			</div>
+			<button name="save" type="submit" class="btn btn-success" [disabled]="form.invalid">
+				Save
+			</button>
+		</form>
+	</div>
 </div>
 <div class="alert alert-success" *ngIf="showMessage">
-  Customer saved successfully!
+	Customer saved successfully!
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef } from '@angular/core';
 import {
   FormGroup,
   FormControl,
@@ -7,17 +7,30 @@ import {
 } from '@angular/forms';
 
 import { AppValidators } from '../app-validators';
+import {DateButton} from 'angular-bootstrap-datetimepicker';
+import * as _moment from 'moment';
+import {unitOfTime} from 'moment';
+
+let moment = _moment;
+
+if ('default' in _moment) {
+  moment = _moment['default'];
+}
+
+declare var $: any;
 
 @Component({
   selector: 'app-customer-form',
   templateUrl: './customer-form.component.html',
   styleUrls: ['./customer-form.component.css']
 })
-export class CustomerFormComponent implements OnInit {
+export class CustomerFormComponent implements OnInit, AfterViewInit {
   form: FormGroup;
   showMessage = false;
+	currDate = new Date(Date.now());
+  private _isPickerOpen = false;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private _elementRef: ElementRef) {}
 
   ngOnInit() {
 
@@ -73,7 +86,7 @@ export class CustomerFormComponent implements OnInit {
         phone: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]]
       }),
-      city: ['', Validators.required]
+      birthday: ['', Validators.required]
     });
   }
 
@@ -89,8 +102,8 @@ export class CustomerFormComponent implements OnInit {
     return this.form.get('contact.email');
   }
 
-  get city() {
-    return this.form.get('city');
+  get birthday() {
+    return this.form.get('birthday');
   }
 
   onSave() {
@@ -103,5 +116,65 @@ export class CustomerFormComponent implements OnInit {
     // }
     console.log(this.form.controls);
     this.form.reset();
+  }
+
+  ngAfterViewInit(): void {
+    const dropdownToggle = $('[data-toggle="dropdown"]', this._elementRef.nativeElement);
+    dropdownToggle.parent().on('show.bs.dropdown', () => {
+      this._isPickerOpen = true;
+    });
+    dropdownToggle.parent().on('hide.bs.dropdown', () => {
+      this._isPickerOpen = false;
+    });
+  }
+
+  /**
+   * This filter `disables` dates that are invalid for selection.
+   * It returns `false` if the date is invalid for selection; Otherwise, `true`.
+   * Filters use ES6 syntax so the `this` context is fixed to this component.
+   * @param value
+   *  the numeric value of the user entered date.
+   */
+  dateInputFilter = (value: (number | null)) => {
+    return value >= moment().valueOf();
+  }
+
+  /**
+   * This filter `disables` dates that are invalid for selection.
+   * It returns `false` if the date is invalid for selection; Otherwise, `true`.
+   * Filters use ES6 syntax so the `this` context is fixed to this component.
+   * @param dateButton
+   *  the target datebutton.
+   * @param viewName
+   *  the current view.
+   */
+  datePickerFilter = (dateButton: DateButton, viewName: string) => {
+    return dateButton.value >= moment().startOf(viewName as unitOfTime.StartOf).valueOf();
+  }
+
+  /**
+   * Used to keep the Bootstrap drop-down open while clicking on the date/time picker.
+   * Without this, the dropdown will close whenever the user clicks,
+   * @param event
+   *  the DOM click event.
+   */
+  keepDropDownOpen(event: Event) {
+    event.stopPropagation();
+  }
+
+  /**
+   * Close the Date drop-down when date is selected.
+   * Do not `toggle` the drop-down unless a value is selected.
+   * ngModel handles actually setting the start date value.
+   * @param event
+   *  the `DlDateTimePickerChange` event.
+   */
+  dateSelected(event, formControlName) {
+    console.log('_isDropdownVisible', this._isPickerOpen);
+    if (this._isPickerOpen && event.value) {
+      $('.date-dropdown').dropdown('toggle');
+      console.log("Value set for", formControlName);
+      this.birthday.setValue(event.value);
+    }
   }
 }
